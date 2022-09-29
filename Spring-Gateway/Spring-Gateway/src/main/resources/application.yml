@@ -1,0 +1,13 @@
+server:  port: 8070  
+spring:  application:    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+      - id: USER-SERVICE
+        #uri: http://localhost:8080/        uri: lb://USER-SERVICE
+        predicates:
+        - Path=/user/**#        filters:#        - name: circuitBreaker#          args:#            name: USER-SERVICE#            fallbackurl: forward/userServiceFallBack
+      - id: DEPARTMENT-SERVICE
+        #uri: http://localhost:8081/        uri: lb://DEPARTMENT-SERVICE
+        predicates:
+        - Path=/dept/**#        filters:#        - name: circuitBreaker#          args:#            name: DEPARTMENT-SERVICE#            fallbackurl: forward/departmentServiceFallBack   main:    web-application-type: reactive    ##Actuator Configuration#management:#  endpoints:#    web:#      exposure:#        include: hystrix.stream, health, info          ##Hystrix Configuration#hystrix:#  command:#    fallbackcmd:#      execution:#        isolation:#          thread:#            timeoutInMilliseconds: 4000           eureka:  client:    register-with-eureka: true    fetch-registry: trueserviceUrl:      defaultZone: http://localhost:8761/eureka      instance:            instance-id: ${spring.application.name}-${random.int}                   

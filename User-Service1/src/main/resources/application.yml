@@ -1,0 +1,18 @@
+department:
+  service:
+#    url: 'http://localhost:9091/dept'
+     url: 'http://DEPARTMENT-SERVICE/dept'
+
+spring:
+  application:
+    name: USER-SERVICE
+server:
+  port: 9092
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'http://localhost:8761/eureka'
+  instance:
+     localhost: localhost
+    #instance-id: '${spring.application.name}-${random.int}'
